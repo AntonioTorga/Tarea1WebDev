@@ -5,35 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>¡Feria Online! Donar</title>
-    <script>
-        const validarForm = () => {
-        // funciones auxiliares
-            const validadorMail = (mail) => (/^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/).test(mail);
-            const validadorText = (txt,max) => txt && txt.length < max;
-            const validadorTipo = (tipo) => {
-                const opc = ["Fruta", "Verdura", "Otro"];
-                return opc.includes(tipo);
-            }
-            let regionInput = document.getElementById("region");
-            let comunaInput = document.getElementById("comuna");
-            let calleNumeroInput = document.getElementById("calle-numero");
-            let tipoInput = document.getElementById("tipo");
-            let cantidadInput = document.getElementById("cantidad");
-            let fechaDisponibilidadInput = document.getElementById("fecha-disponibilidad");
-            let descripcionInput = document.getElementById("descripcion");
-            let condicionesInput = document.getElementById("condiciones");
-            let nombreInput = document.getElementById("nombre");
-            let emailInput = document.getElementById("email");
-            let celularInput = document.getElementById("celular");
-            
-            let isValid = false;
-            let msg = "";
-            // if (!validadorText(calleNumeroInput.value,80)){
-            //     msg += 
-            // }
-        }
-
-    </script>
 </head>
 
 <body>
@@ -106,5 +77,79 @@
               </div>
         </form>
     </div>
+    <script>
+        const validarDonacion = () => {
+            const validadorMail = (mail) => (/^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/).test(mail);
+            const validadorNumero = (numero) => (/\d{9}/).test(numero);
+            const validadorText = (txt,max) => txt && txt.length <= max;
+            const validadorName = (txt,max,min) => txt && txt.length <= max && txt.length>=min;
+            const validadorTipo = (tipo) => {
+                const opc = ["Fruta", "Verdura", "Otro"];
+                return opc.includes(tipo);
+            }
+            //VALIDADORDIAHORAFECHA
+            let regionInput = document.getElementById("region");
+            let comunaInput = document.getElementById("comuna");
+            let calleNumeroInput = document.getElementById("calle-numero");
+            let tipoInput = document.getElementById("tipo");
+            let cantidadInput = document.getElementById("cantidad");
+            let fechaDisponibilidadInput = document.getElementById("fecha-disponibilidad");
+            let descripcionInput = document.getElementById("descripcion");
+            let condicionesInput = document.getElementById("condiciones");
+            let nombreInput = document.getElementById("nombre");
+            let emailInput = document.getElementById("email");
+            let celularInput = document.getElementById("celular");
+            
+            let isValid = false;
+            let msg = "";
+            if (!validadorText(calleNumeroInput.value,80)){
+                msg += "¡Dirección invalida!\n";
+                    calleNumeroInput.style.borderColor = "red"; 
+            } else {
+                    calleNumeroInput.style.borderColor = "";
+            }
+            if (!validadorTipo(tipoInput.value)){
+                msg += "¡Tipo invalido!\n";
+                    tipoInput.style.borderColor = "red"; 
+            } else {
+                    tipoInput.style.borderColor = "";
+            }
+            if (!validadorText(cantidadInput.value,10)){
+                msg += "¡Cantidad invalida!\n";
+                    cantidadInput.style.borderColor = "red";
+            } else {
+                    cantidadInput.style.borderColor = "";
+            }
+            //VALIDADOR DÍAHORAFECHA
+            if (!validadorName(nombreInput.value,80,3)){
+                msg += "¡Nombre invalido!\n";
+                    nombreInput.style.borderColor = "red";
+            } else {
+                    nombreInput.style.borderColor = "";
+            }
+            if (!validadorMail(emailInput.value)){
+                msg += "¡Email invalido!\n";
+                    emailInput.style.borderColor = "red";
+            } else {
+                    emailInput.style.borderColor = "";
+            }
+            if (!validadorNumero(celularInput.value)){
+                msg += "¡Número invalido!\n";
+                    celularInput.style.borderColor = "red";
+            } else {
+                    celularInput.style.borderColor = "";
+            }
+            if (msg === ""){
+                msg = "¡Has completado tu donación!"
+                isValid = true;
+            }
+            alert(msg)
+            if (isValid){
+                window.location.href = "./inicio.html"
+            }
+        }
+        let submitBtn = document.getElementById("submit-donacion");
+        submitBtn.addEventListener("click", validarDonacion);   
+    </script>
 </body>
 </html>

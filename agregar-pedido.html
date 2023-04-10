@@ -60,6 +60,76 @@
               </div>
         </form>
     </div>
-    
+    <script>
+        const validarDonacion = () => {
+            const validadorMail = (mail) => (/^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/).test(mail);
+            const validadorNumero = (numero) => (/\d{9}/).test(numero);
+            const validadorText = (txt,max) => txt && txt.length <= max;
+            const validadorName = (txt,max,min) => txt && txt.length <= max && txt.length>=min;
+            const validadorTipo = (tipo) => {
+                const opc = ["Fruta", "Verdura", "Otro"];
+                return opc.includes(tipo);
+            }
+            //VALIDADORDIAHORAFECHA
+            let regionInput = document.getElementById("region");
+            let comunaInput = document.getElementById("comuna");
+            let tipoInput = document.getElementById("tipo");
+            let descripcionInput = document.getElementById("descripcion");
+            let cantidadInput = document.getElementById("cantidad");
+            let nombreInput = document.getElementById("nombre");
+            let emailInput = document.getElementById("email");
+            let celularInput = document.getElementById("celular");
+            
+            let isValid = false;
+            let msg = "";
+            if (!validadorText(descripcionInput.value,250)){
+                msg += "¡Descripción invalida!\n";
+                    descripcionInput.style.borderColor = "red"; 
+            } else {
+                    descripcionInput.style.borderColor = "";
+            }
+            if (!validadorTipo(tipoInput.value)){
+                msg += "¡Tipo invalido!\n";
+                    tipoInput.style.borderColor = "red"; 
+            } else {
+                    tipoInput.style.borderColor = "";
+            }
+            if (!validadorText(cantidadInput.value,10)){
+                msg += "¡Cantidad invalida!\n";
+                    cantidadInput.style.borderColor = "red";
+            } else {
+                    cantidadInput.style.borderColor = "";
+            }
+            //VALIDADOR DÍAHORAFECHA
+            if (!validadorName(nombreInput.value,80,3)){
+                msg += "¡Nombre invalido!\n";
+                    nombreInput.style.borderColor = "red";
+            } else {
+                    nombreInput.style.borderColor = "";
+            }
+            if (!validadorMail(emailInput.value)){
+                msg += "¡Email invalido!\n";
+                    emailInput.style.borderColor = "red";
+            } else {
+                    emailInput.style.borderColor = "";
+            }
+            if (!validadorNumero(celularInput.value)){
+                msg += "¡Número invalido!\n";
+                    celularInput.style.borderColor = "red";
+            } else {
+                    celularInput.style.borderColor = "";
+            }
+            if (msg === ""){
+                msg = "¡Has completado tu pedido!"
+                isValid = true;
+            }
+            alert(msg)
+            if (isValid){
+                window.location.href = "./inicio.html"
+            }
+        }
+        let submitBtn = document.getElementById("submit-pedido");
+        submitBtn.addEventListener("click", validarDonacion);   
+    </script>
 </body>
 </html>
