@@ -54,10 +54,20 @@
                 <label for="condiciones">Condiciones para retirar:</label>
                 <input id= "condiciones" type= "text" size = 80 name="condiciones">
             </div>
-
-
-
-
+            <div id ="fotos-input" class="grupo-input">
+            <div id="foto-1-input" class="grupo-foto-input"> 
+                <label for="foto-1">Imagen 1</label>
+                <input id= "foto-1" type= "file" name="foto-1">
+            </div>
+            <div id="foto-2-input" class="grupo-foto-input"> 
+                <label for="foto-2">Imagen 2</label>
+                <input id= "foto-2" type= "file" name="foto-2">
+            </div>
+            <div id="foto-3-input" class="grupo-foto-input"> 
+                <label for="foto-3">Imagen 3</label>
+                <input id= "foto-3" type= "file" name="foto-3">
+            </div>
+            </div>
             <div id="nombre-input" class="grupo-input"> 
                 <label for="nombre">Nombre:</label>
                 <input id="nombre" type= "text" size = 80 name="nombre">
@@ -180,6 +190,7 @@
             const validadorNumero = (numero) => (/\d{9}/).test(numero);
             const validadorText = (txt,max) => txt && txt.length <= max;
             const validadorName = (txt,max,min) => txt && txt.length <= max && txt.length>=min;
+            const validadorImg = (img1,img2,img3) => img1 || img2 || img3;
             const validadorTipo = (tipo) => {
                 const opc = ["Fruta", "Verdura", "Otro"];
                 return opc.includes(tipo);
@@ -193,6 +204,10 @@
             let fechaDisponibilidadInput = document.getElementById("fecha-disponibilidad");
             let descripcionInput = document.getElementById("descripcion");
             let condicionesInput = document.getElementById("condiciones");
+            let fotosInput = document.getElementById("fotos-input")
+            let foto1Input = document.getElementById("foto-1")
+            let foto2Input = document.getElementById("foto-2")
+            let foto3Input = document.getElementById("foto-3")
             let nombreInput = document.getElementById("nombre");
             let emailInput = document.getElementById("email");
             let celularInput = document.getElementById("celular");
@@ -234,6 +249,12 @@
                     fechaDisponibilidadInput.style.borderColor = "red";
             } else {
                     fechaDisponibilidadInput.style.borderColor = "";
+            }
+            if (!validadorImg(foto1Input.value,foto2Input.value,foto3Input.value)){
+                msg += "¡Imágenes inválidas!\n";
+                    fotosInput.style.Color = "red";
+            } else {
+                    fotosInput.style.Color = "";
             }
             if (!validadorName(nombreInput.value,80,3)){
                 msg += "¡Nombre invalido!\n";
