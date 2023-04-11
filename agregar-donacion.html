@@ -5,6 +5,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>¡Feria Online! Donar</title>
+    <style>
+        label {
+            font-family: "Lucida Console", "Courier New", monospace;
+            color: whitesmoke
+        }
+        h1, button {
+            font-family: "Lucida Console", "Courier New", monospace;
+        }
+        h1 {
+            font-size: xxx-large;
+        }
+        .container {
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-content: space-around;
+            background-color: rgb(126, 185, 71);
+
+        }
+        .grupo-input {
+            padding: 10px;
+            border-color: darkolivegreen;
+            border-width:2px;
+            border-style:solid;
+            margin: 5px;
+        }
+        body {
+            background-image: url("foto2.jpg");
+            padding: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -34,7 +65,7 @@
                 <input id="tipo" list="tipos" name="tipo">
                 <datalist id = "tipos"> 
                     <option value="Fruta">
-                    <option value="Verduras">
+                    <option value="Verdura">
                     <option value="Otro">
                 </datalist>
             </div>
@@ -82,11 +113,12 @@
             </div>
             <div class="botones">
                 <button type="button" id="submit-donacion">
-                  Agregar donacion
+                  Agregar donación
                 </button>
               </div>
         </form>
     </div>
+
     <script>
         const data = {
             "regiones": [
@@ -160,6 +192,23 @@
         for (let x in data["regiones"]){
             regionesList.push(data["regiones"][x]["nombre"]);
         }
+        const butt_inicio = () => window.location.href = "./inicio.html";
+        const buttyesFun= () => {
+            let div_conf = document.getElementById("confirm");
+            div_conf.innerHTML="";
+            let new_prompt = document.createElement("h3");
+            new_prompt.innerText = "Hemos recibido la información de su donación. Muchas gracias." ;
+            div_conf.appendChild(new_prompt);
+            let button = document.createElement("button");
+            button.type = "button";
+            button.innerText = "Ir al inicio";
+            button.addEventListener("click",butt_inicio);
+            div_conf.appendChild(button);
+        }
+        const buttnoFun = () => {
+            let div_conf = document.getElementById("confirm");
+            div_conf.remove();
+        }
         const validarDonacion = () => {
             const validadorRegion = (region) => region && regionesList.includes(region);
             const validadorComuna = (region,comuna) => {
@@ -187,7 +236,7 @@
                 return res;
             }
             const validadorMail = (mail) => (/^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/).test(mail);
-            const validadorNumero = (numero) => (/\d{9}/).test(numero);
+            const validadorNumero = (numero) => numero == "" || (/\d{9}/).test(numero);
             const validadorText = (txt,max) => txt && txt.length <= max;
             const validadorName = (txt,max,min) => txt && txt.length <= max && txt.length>=min;
             const validadorImg = (img1,img2,img3) => img1 || img2 || img3;
@@ -212,7 +261,6 @@
             let emailInput = document.getElementById("email");
             let celularInput = document.getElementById("celular");
             
-            let isValid = false;
             let msg = "";
             if (!validadorRegion(regionInput.value)){
                 msg += "¡Región invalida!\n";
@@ -275,12 +323,28 @@
                     celularInput.style.borderColor = "";
             }
             if (msg === ""){
-                msg = "¡Has completado tu donación!"
-                isValid = true;
+                msg = "¡Has completado tu donación!";
+                let form_don = document.getElementById("form-donacion");
+                let question = document.createElement("div");
+                question.id = "confirm";
+                question.className = "grupo-input";
+                let prompt = document.createElement("h3");
+                prompt.innerText= "¿Confirma que desea agregar esta donación?";
+                question.appendChild(prompt);
+                let butt_yes = document.createElement("button");
+                let butt_no = document.createElement("button");
+                butt_yes.type = "button";
+                butt_no.type = "button";
+                butt_yes.innerText = "Sí, confirmo";
+                butt_no.innerText = "No, quiero volver al formulario";
+                question.appendChild(butt_yes);
+                question.appendChild(butt_no);
+                butt_yes.addEventListener("click", buttyesFun);
+                butt_no.addEventListener("click", buttnoFun);
+                form_don.appendChild(question);
             }
-            alert(msg)
-            if (isValid){
-                window.location.href = "./inicio.html"
+            else {
+                alert(msg);
             }
         }
 
